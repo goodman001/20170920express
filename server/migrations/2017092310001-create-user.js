@@ -6,25 +6,40 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
-      },      
+      },
+	  username: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+      },
       email: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
       },
-      password: {
-          type: Sequelize.STRING,
-          allowNull: false,
-        },
-      address: {
-          type: Sequelize.STRING,
-          allowNull: false,
-        },
-      country: {
-          type: Sequelize.STRING,
-          allowNull: false,
-        }
-      ,
+	  password: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+	  gender: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+	  location: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+	  category: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+	  price: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
+	  descript: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

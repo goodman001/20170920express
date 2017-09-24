@@ -1,5 +1,6 @@
 
 https://gist.github.com/JoeKarlsson/ebb1c714466ae3de88ae565fa9ba4779
+https://github.com/waiyaki/postgres-express-node-tutorial
 npm install --save sequelize-cli
 sequelize db:migrate
  curl -d "email=abc@gmail.com&password=123&address=addr&country=us" -X POST "http://localhost:8000/api/users"
@@ -9,3 +10,9 @@ sequelize db:migrate
  
  curl -d "title=tt1&content=cc" -X POST "http://localhost:8000/api/notes/1"
  curl -d "title=tt2&content=cc2" -X POST "http://localhost:8000/api/notes/1/items/1"
+ 
+ 
+ 
+ 
+ http://technoetics.in/create-basic-login-forms-using-create-react-app-module-reactjs/?utm_source=hashnode.com
+ https://github.com/smhatre59/cloudstorage/blob/master/frontend/src/App.js
