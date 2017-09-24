@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-var apiBaseUrl = "http://localhost:8000/api/";
+var apiBaseUrl = "http://192.168.200.142:8000/api/";
 import axios from 'axios';
 import UploadScreen from './UploadScreen';
 import UploadPage from './UploadPage';
@@ -69,7 +69,7 @@ class Login extends Component {
     var self = this;
 		if(this.state.username.length>0 && this.state.password.length>0) {
 		var payload={
-		  "userid":this.state.username,
+		  "username":this.state.username,
 			"password":this.state.password,
 		}
 		axios.post(apiBaseUrl+'users/check', payload)
@@ -81,7 +81,7 @@ class Login extends Component {
 		   uploadScreen.push(<UploadPage appContext={self.props.appContext} role={self.state.loginRole}/>)
 		   self.props.appContext.setState({loginPage:[],uploadScreen:uploadScreen})
 		 }
-		 else if(response.data.code == 204){
+		 else if(response.data.code == 404){
 		   console.log("Username password do not match");
 		   alert(response.data.success)
 		 }

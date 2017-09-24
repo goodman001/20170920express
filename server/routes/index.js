@@ -12,6 +12,8 @@ module.exports = (app) => {
   app.post('/api/users', usersController.create);
   app.post('/api/users/check', usersController.check);
   app.get('/api/users/:userid', usersController.retrieve);
+  app.post('/api/users/:userid', usersController.update);
+	
   app.post('/api/notes/:userid', noteItemsController.create);
   app.post('/api/notes/:userid/items/:noteid', noteItemsController.update);
 };

@@ -5,10 +5,14 @@ module.exports = {
   create(req, res) {
     return User
       .create({
+		username:req.body.username,
 		email: req.body.email,
 		password: req.body.password,
-		address: req.body.address,
-		country: req.body.country,
+		gender: req.body.gender,
+		location: req.body.location,
+		category: req.body.category,
+		price: req.body.price,
+		description: req.body.description,
       })
       .then((user) => res.status(201).send(user))
       .catch((error) => res.status(400).send(error));
@@ -51,7 +55,7 @@ module.exports = {
   },
   check(req, res) {
     return User
-      .findOne({ where: {email: req.body.email,password: req.body.password} })
+      .findOne({ where: {username: req.body.username,password: req.body.password} })
       .then((user) => {
         if (!user) {
           return res.status(404).send({
@@ -59,6 +63,35 @@ module.exports = {
           });
         }
         return res.status(200).send(user);
+      })
+      .catch((error) => res.status(400).send(error));
+  },
+  update(req, res) {
+    return User
+      .findById(req.params.userid, {
+        include: [{
+          model: NoteItem,
+          as: 'noteItems',
+        }],
+      })
+      .then(user => {
+        if (!user) {
+          return res.status(404).send({
+            message: 'user Not Found',
+          });
+        }
+        return user
+          .update({
+			email: req.body.email || user.email,
+			password: req.body.password || user.password,
+			gender: req.body.gender || user.gender,
+			location: req.body.location || user.location,
+			category: req.body.category || user.category,
+			price: req.body.price || user.price,
+			description: req.body.description || user.description,
+          })
+          .then(() => res.status(200).send(user))
+          .catch((error) => res.status(400).send(error));
       })
       .catch((error) => res.status(400).send(error));
   },

@@ -1,12 +1,14 @@
 
 https://gist.github.com/JoeKarlsson/ebb1c714466ae3de88ae565fa9ba4779
 https://github.com/waiyaki/postgres-express-node-tutorial
+GRANT ALL ON DATABASE mydb TO staff;
+
 npm install --save sequelize-cli
 sequelize db:migrate
- curl -d "email=abc@gmail.com&password=123&address=addr&country=us" -X POST "http://localhost:8000/api/users"
- curl -d "email=abc@gmail.com&password=123" -X POST "http://localhost:8000/api/users/check"
+ curl -d "username=test&email=abc@gmail.com&password=123&gender=M&location=addr&category=FF&price=2.1&description=description" -X POST "http://localhost:8000/api/users"
+ curl -d "username=test&password=123" -X POST "http://localhost:8000/api/users/check"
  curl "http://localhost:8000/api/users/1"
- 
+ curl -d "email=tt@g.com&password=123" -X POST "http://localhost:8000/api/users/1"
  
  curl -d "title=tt1&content=cc" -X POST "http://localhost:8000/api/notes/1"
  curl -d "title=tt2&content=cc2" -X POST "http://localhost:8000/api/notes/1/items/1"
