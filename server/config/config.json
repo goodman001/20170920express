@@ -1,6 +1,6 @@
 {
   "development": {
-    "username": "dbmgr",
+    "username": "u",
     "password": "123456",
     "database": "notedb",
     "host": "127.0.0.1",

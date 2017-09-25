@@ -6,6 +6,8 @@ Loginscreen is the main screen which the user is shown on first visit to page an
 hitting logout
 */
 import LoginScreen from './Loginscreen';
+import UploadScreen from './UploadScreen';
+import UserPage from './UserPage';
 /*
 Module:Material-UI
 Material-UI is used for designing ui of the app
@@ -28,20 +30,57 @@ import Dropzone from 'react-dropzone';
 Module:superagent
 superagent is used to handle post/get requests to server
 */
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
+import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
+import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
 var request = require('superagent');
 
 class NoteScreen extends Component {
   constructor(props){
     super(props);
 	  console.log(props);
+    var noteItems = this.props.user.noteItems;
+    var notetitle;
+    
+    var notePreview=[];
+    var newnotePreview=[];
+        
+        for(var i in noteItems){
+          newnotePreview.push(<MuiThemeProvider><tr>
+            <td>
+            {noteItems[i].id}
+             
+            </td>
+            <td>
+           {noteItems[i].title}
+            </td>
+            <td>
+            {noteItems[i].content}
+            </td>
+            <td>
+          
+            <RaisedButton label="Edit" primary={true} style={style} onClick={(event) => this.handleNoteClick(i+1)}/>
+            
+            </td>
+            </tr>
+            </MuiThemeProvider>
+          )
+        }
+    notePreview.push(
+      <MuiThemeProvider>
+               <table className="notetable">
+                <tbody>
+                <tr>
+                  <th>ID</th>
+                  <th>TITLE</th>
+                  <th>CONTENT</th>
+                  <th></th>
+                </tr>
+      {newnotePreview} 
+                 </tbody>
+              </table>
+      </MuiThemeProvider>
+                      )
     this.state={
       role:'student',
       filesPreview:[],
@@ -49,7 +88,8 @@ class NoteScreen extends Component {
       draweropen:false,
       printcount:10,
       printingmessage:'',
-      printButtonDisabled:false
+      printButtonDisabled:false,
+      notePreview:notePreview
     }
   }
   componentWillMount(){
@@ -64,7 +104,8 @@ class NoteScreen extends Component {
         printcount =10;
       }
     }
-    this.setState({printcount,role:this.props.role});
+    
+    this.setState({printcount,role:this.props.role,user:this.props.user});
   }
   /*
   Function:handleCloseClick
@@ -82,11 +123,11 @@ class NoteScreen extends Component {
       filesPreview.push(<div>
         {filesToBeSent[i][0].name}
         <MuiThemeProvider>
-        <a href="#"><FontIcon
+        <a href="#" onClick={(event) => this.handleDivClick(event)}><FontIcon
           className="material-icons customstyle"
           color={blue500}
-          onClick={(event) => this.handleCloseClick(event,i)}
-        >clear</FontIcon></a>
+          
+        >edit</FontIcon></a>
         </MuiThemeProvider>
         </div>
       )
@@ -99,6 +140,28 @@ class NoteScreen extends Component {
   Usage:This fxn is default event handler of react drop-Dropzone
   which is modified to update filesPreview div
   */
+  /*generateRows(noteItems) {
+        console.log(noteItems);
+        //threadshow=[<TableCell>ID<TableCell>,<TableCell>Title<TableCell>,<TableCell>Content<TableCell>];
+        //this.setState({notethreadPreview,threadshow});
+        var notePreview=[];
+        for(var i in noteItems){
+          notePreview.push(<TableRow>
+            <TableCell>
+            {noteItems[i].id}
+            </TableCell>
+            <TableCell>
+            {noteItems[i].title}
+            </TableCell>
+            <TableCell>
+            {noteItems[i].content}
+            </TableCell>
+            </TableRow>
+          )
+        }
+        this.setState({notePreview});
+        
+    }*/
   onDrop(acceptedFiles, rejectedFiles) {
       // console.log('Accepted files: ', acceptedFiles[0].name);
       var filesToBeSent=this.state.filesToBeSent;
@@ -158,6 +221,37 @@ handleClick(event){
     alert("Please upload some files first");
   }
 }
+
+handleNoteClick(i){
+    var self = this;
+    console.log(i);
+    var localloginComponent = [];
+    if(1){
+   localloginComponent.push(
+        <MuiThemeProvider>
+          <div>
+           <TextField
+             hintText="Enter your College Rollno"
+             floatingLabelText="Student Id"
+             onChange = {(event,newValue) => this.setState({username:newValue})}
+             />
+           <br/>
+             <TextField
+               type="password"
+               hintText="Enter your Password"
+               floatingLabelText="Password"
+               onChange = {(event,newValue) => this.setState({password:newValue})}
+               />
+             <br/>
+             <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
+         </div>
+         </MuiThemeProvider>
+      )
+}
+     this.setState({notePreview:localloginComponent})
+    //this.props.appContext.setState({userPage:userPage,uploadScreen:[]})
+    
+  }
 /*
   Function:toggleDrawer
   Parameters: event
@@ -191,44 +285,24 @@ handleLogout(event){
   this.props.appContext.setState({loginPage:loginPage,uploadScreen:[]})
 }
   render() {
+    //console.log(this.props.user.noteItems);
+    //this.generateRows();
+    /*
+    let rowComponents = this.generateRows(this.props.user.noteItems);
+      let table_rows = []
+      let table_headers = [];
+      let data = this.props.users.noteItems;
+    if (this.props.user.noteItems.length >0){
+      let headers = Object.keys(this.props.user.noteItems[0]);
+        headers.forEach(header => table_headers.push(<TableCell key={header}>{header}</TableCell>));
+    }*/
     return (
       <div className="App">
-          <Table>
-    <TableHeader>
-      <TableRow>
-        <TableHeaderColumn>ID</TableHeaderColumn>
-        <TableHeaderColumn>Name</TableHeaderColumn>
-        <TableHeaderColumn>Status</TableHeaderColumn>
-      </TableRow>
-    </TableHeader>
-    <TableBody>
-      <TableRow>
-        <TableRowColumn>1</TableRowColumn>
-        <TableRowColumn>John Smith</TableRowColumn>
-        <TableRowColumn>Employed</TableRowColumn>
-      </TableRow>
-      <TableRow>
-        <TableRowColumn>2</TableRowColumn>
-        <TableRowColumn>Randal White</TableRowColumn>
-        <TableRowColumn>Unemployed</TableRowColumn>
-      </TableRow>
-      <TableRow>
-        <TableRowColumn>3</TableRowColumn>
-        <TableRowColumn>Stephanie Sanders</TableRowColumn>
-        <TableRowColumn>Employed</TableRowColumn>
-      </TableRow>
-      <TableRow>
-        <TableRowColumn>4</TableRowColumn>
-        <TableRowColumn>Steve Brown</TableRowColumn>
-        <TableRowColumn>Employed</TableRowColumn>
-      </TableRow>
-      <TableRow>
-        <TableRowColumn>5</TableRowColumn>
-        <TableRowColumn>Christopher Nolan</TableRowColumn>
-        <TableRowColumn>Unemployed</TableRowColumn>
-      </TableRow>
-    </TableBody>
-  </Table>
+          <div className="container">
+               
+              {this.state.notePreview}
+                
+          </div>
           <div onClick={(event) => this.handleDivClick(event)}>
           <center>
           <div>
@@ -239,16 +313,17 @@ handleLogout(event){
                 <div>Try dropping some files here, or click to select files to upload.</div>
           </Dropzone>
           <div>
-          Files to be printed are:
+          Files to be printed are:fgsfg
           {this.state.filesPreview}
           </div>
           </center>
           <div>
           {this.state.printingmessage}
           </div>
-      <MuiThemeProvider>
-           <RaisedButton disabled={this.state.printButtonDisabled} label="Print Files" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
-      </MuiThemeProvider>
+          <MuiThemeProvider>	  
+               <RaisedButton disabled={this.state.printButtonDisabled} label="Print Files" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
+          </MuiThemeProvider>
+
           </div>
       </div>
     );

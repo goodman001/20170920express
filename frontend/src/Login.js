@@ -75,7 +75,7 @@ class Login extends Component {
 		  "username":this.state.username,
 			"password":this.state.password,
 		}
-		axios.post(apiBaseUrl+'users/check', payload)
+		axios.post('/api/users/check', payload)
 	   .then(function (response) {
 		 console.log(response);
 		 if(response.data.code == 200){

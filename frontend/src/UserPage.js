@@ -20,6 +20,7 @@ class App extends Component {
   componentDidMount(){
     var currentScreen=[];
     //currentScreen.push(<ProfileScreen appContext={this.props.appContext} role={this.props.role} user={this.props.user} />);
+	  console.log("lala");
 	currentScreen.push(<NoteScreen appContext={this.props.appContext} role={this.props.role} user={this.props.user} />);
     this.setState({currentScreen})
   }
