@@ -9,6 +9,9 @@ import UploadScreen from './UploadScreen';
 import Pastfiles from './Pastfiles';
 import LoginScreen from './Loginscreen'
 
+import ProfileScreen from './ProfileScreen';
+import NoteScreen from './NoteScreen';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +19,8 @@ class App extends Component {
   }
   componentDidMount(){
     var currentScreen=[];
-    currentScreen.push(<UploadScreen appContext={this.props.appContext} role={this.props.role}/>);
+    //currentScreen.push(<ProfileScreen appContext={this.props.appContext} role={this.props.role} user={this.props.user} />);
+	currentScreen.push(<NoteScreen appContext={this.props.appContext} role={this.props.role} user={this.props.user} />);
     this.setState({currentScreen})
   }
   /**
@@ -33,13 +37,13 @@ class App extends Component {
       // console.log("need to open uploadapge")
 	  console.log(this.props);
       var currentScreen=[];
-      currentScreen.push(<UploadScreen appContext={this.props.appContext} role={this.props.role}/>);
+      currentScreen.push(<ProfileScreen appContext={this.props.appContext} role={this.props.role} user={this.props.user}/>);
       this.setState({currentScreen})
       break;
       case "openpast":
       // console.log("need to open pastfiles")
       var currentScreen=[];
-      currentScreen.push(<Pastfiles appContext={this.props.appContext} role={this.props.role}/>);
+      currentScreen.push(<Pastfiles appContext={this.props.appContext} role={this.props.role} user={this.props.user}/>);
       this.setState({currentScreen})
       break;
       case "logout":

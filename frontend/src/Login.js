@@ -5,10 +5,13 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-var apiBaseUrl = "http://192.168.200.142:8000/api/";
+var apiBaseUrl = "http://192.168.44.130:8000/api/";
 import axios from 'axios';
 import UploadScreen from './UploadScreen';
 import UploadPage from './UploadPage';
+
+import UserPage from './UserPage';
+
 class Login extends Component {
   constructor(props){
     super(props);
@@ -77,8 +80,9 @@ class Login extends Component {
 		 console.log(response);
 		 if(response.data.code == 200){
 		   console.log("Login successfull");
+       console.log(response.data.user);
 		   var uploadScreen=[];
-		   uploadScreen.push(<UploadPage appContext={self.props.appContext} role={self.state.loginRole}/>)
+		   uploadScreen.push(<UserPage appContext={self.props.appContext} role={self.state.loginRole} user={response.data.user} />)
 		   self.props.appContext.setState({loginPage:[],uploadScreen:uploadScreen})
 		 }
 		 else if(response.data.code == 404){

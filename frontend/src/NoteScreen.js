@@ -18,7 +18,7 @@ import MenuItem from 'material-ui/MenuItem';
 import FontIcon from 'material-ui/FontIcon';
 import {blue500, red500, greenA200} from 'material-ui/styles/colors';
 
-var apiBaseUrl = "http://localhost:4000/api/";
+var apiBaseUrl = "http://192.168.44.130:8000/api/";
 /*
 Module:Dropzone
 Dropzone is used for local file selection
@@ -28,9 +28,17 @@ import Dropzone from 'react-dropzone';
 Module:superagent
 superagent is used to handle post/get requests to server
 */
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table';
 var request = require('superagent');
 
-class UploadScreen extends Component {
+class NoteScreen extends Component {
   constructor(props){
     super(props);
 	  console.log(props);
@@ -185,6 +193,42 @@ handleLogout(event){
   render() {
     return (
       <div className="App">
+          <Table>
+    <TableHeader>
+      <TableRow>
+        <TableHeaderColumn>ID</TableHeaderColumn>
+        <TableHeaderColumn>Name</TableHeaderColumn>
+        <TableHeaderColumn>Status</TableHeaderColumn>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      <TableRow>
+        <TableRowColumn>1</TableRowColumn>
+        <TableRowColumn>John Smith</TableRowColumn>
+        <TableRowColumn>Employed</TableRowColumn>
+      </TableRow>
+      <TableRow>
+        <TableRowColumn>2</TableRowColumn>
+        <TableRowColumn>Randal White</TableRowColumn>
+        <TableRowColumn>Unemployed</TableRowColumn>
+      </TableRow>
+      <TableRow>
+        <TableRowColumn>3</TableRowColumn>
+        <TableRowColumn>Stephanie Sanders</TableRowColumn>
+        <TableRowColumn>Employed</TableRowColumn>
+      </TableRow>
+      <TableRow>
+        <TableRowColumn>4</TableRowColumn>
+        <TableRowColumn>Steve Brown</TableRowColumn>
+        <TableRowColumn>Employed</TableRowColumn>
+      </TableRow>
+      <TableRow>
+        <TableRowColumn>5</TableRowColumn>
+        <TableRowColumn>Christopher Nolan</TableRowColumn>
+        <TableRowColumn>Unemployed</TableRowColumn>
+      </TableRow>
+    </TableBody>
+  </Table>
           <div onClick={(event) => this.handleDivClick(event)}>
           <center>
           <div>
@@ -206,7 +250,7 @@ handleLogout(event){
            <RaisedButton disabled={this.state.printButtonDisabled} label="Print Files" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
       </MuiThemeProvider>
           </div>
-          </div>
+      </div>
     );
   }
 }
@@ -215,4 +259,4 @@ const style = {
   margin: 15,
 };
 
-export default UploadScreen;
+export default NoteScreen;

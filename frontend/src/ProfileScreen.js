@@ -18,7 +18,7 @@ import MenuItem from 'material-ui/MenuItem';
 import FontIcon from 'material-ui/FontIcon';
 import {blue500, red500, greenA200} from 'material-ui/styles/colors';
 
-var apiBaseUrl = "http://localhost:4000/api/";
+var apiBaseUrl = "http://192.168.44.130:8000/api/";
 /*
 Module:Dropzone
 Dropzone is used for local file selection
@@ -30,7 +30,7 @@ superagent is used to handle post/get requests to server
 */
 var request = require('superagent');
 
-class UploadScreen extends Component {
+class ProfileScreen extends Component {
   constructor(props){
     super(props);
 	  console.log(props);
@@ -215,4 +215,4 @@ const style = {
   margin: 15,
 };
 
-export default UploadScreen;
+export default ProfileScreen;

@@ -55,14 +55,23 @@ module.exports = {
   },
   check(req, res) {
     return User
-      .findOne({ where: {username: req.body.username,password: req.body.password} })
+      .findOne({ where: {username: req.body.username,password: req.body.password} ,include: [{
+          model: NoteItem ,
+          as: 'noteItems',
+        }]
+               })
       .then((user) => {
         if (!user) {
-          return res.status(404).send({
-            message: 'user Not Found',
+          return res.send({
+            "code":404,
+            "success":"Username password do not match"
           });
         }
-        return res.status(200).send(user);
+        return res.send({
+            "code":200,
+            "success":"login sucessfull",
+            "user":user
+          });
       })
       .catch((error) => res.status(400).send(error));
   },
