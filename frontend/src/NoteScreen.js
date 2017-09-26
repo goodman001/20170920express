@@ -33,6 +33,7 @@ superagent is used to handle post/get requests to server
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
+import axios from 'axios';
 var request = require('superagent');
 
 class NoteScreen extends Component {
@@ -58,7 +59,7 @@ class NoteScreen extends Component {
             </td>
             <td>
           
-            <RaisedButton label="Edit" primary={true} style={style} onClick={(event) => this.handleNoteEditClick(i+1)}/>
+            <RaisedButton label="Edit" primary={true} style={style} onClick={(event) => this.handleNoteEditClick(i)}/>
             
             </td>
             </tr>
@@ -99,9 +100,14 @@ class NoteScreen extends Component {
       printcount:10,
       printingmessage:'',
       printButtonDisabled:false,
+      user:this.props.user,
       notePreview:notePreview,
       newtitle:'',
       newcontent:'',
+      newcreatemsg:'',
+      userid:this.props.user.id,
+      edittitle:'abc',
+      editcontent:'ccc',
     }
   }
   componentWillMount(){
@@ -237,25 +243,33 @@ handleClick(event){
 handleNoteEditClick(i){
     var self = this;
     console.log(i);
+    //this.setState({edittitle:this.state.user.noteItems[i].title});
+    //this.setState({editcontent:this.state.user.noteItems[i].content});
+    //this.state.edittile = this.state.user.noteItems[i].title;
+    //this.state.editcontent = this.state.user.noteItems[i].content;
+    console.log(this.state.edittile );
     var localloginComponent = [];
     if(1){
      localloginComponent.push(
           <MuiThemeProvider>
             <div>
              <TextField
-               hintText="Enter your College Rollno"
-               floatingLabelText="Student Id"
-               onChange = {(event,newValue) => this.setState({username:newValue})}
+               type="text"
+               hintText="Enter Note title"
+               value={this.state.edittitle}
+               floatingLabelText="Title"
+               onChange = {(event,newValue) => this.onTodoChange(newValue,0)}
                />
              <br/>
                <TextField
-                 type="password"
-                 hintText="Enter your Password"
-                 floatingLabelText="Password"
-                 onChange = {(event,newValue) => this.setState({password:newValue})}
+                 type="text"
+                 hintText="Enter Note Content!"
+                 value = {this.state.editcontent}
+                 floatingLabelText="Content"
+                 onChange = {(event,newValue) => this.onTodoChange(newValue,1)}
                  />
                <br/>
-               <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
+               <RaisedButton label="Create" primary={true} style={style} onClick={(event) => this.handleNoteEditData(event)}/>
            </div>
            </MuiThemeProvider>
         )
@@ -264,6 +278,47 @@ handleNoteEditClick(i){
     //this.props.appContext.setState({userPage:userPage,uploadScreen:[]})
     
   }
+onTodoChange(value,index){
+  console.log(value);
+  var titlev = this.state.edittitle;
+  var contilev = this.state.editcontent;
+  //console.log(this.state.edittitle);
+  if(index == 1){
+    titlev = value;
+  }else{
+    contilev = value;
+  }
+  var localloginComponent = [];
+  localloginComponent.push(
+          <MuiThemeProvider>
+            <div>
+             <TextField
+               type="text"
+               hintText="Enter Note title"
+               value={titlev}
+               floatingLabelText="Title"
+               onChange = {(event,newValue) => this.onTodoChange(newValue,0)}
+               />
+             <br/>
+               <TextField
+                 type="text"
+                 hintText="Enter Note Content!"
+                 value = {contilev}
+                 floatingLabelText="Content"
+                 onChange = {(event,newValue) => this.onTodoChange(newValue,1)}
+                 />
+               <br/>
+               <RaisedButton label="Create" primary={true} style={style} onClick={(event) => this.handleNoteEditData(event)}/>
+           </div>
+           </MuiThemeProvider>
+        )
+  this.setState({edittitle:titlev});
+this.setState({editcontent:contilev});
+this.setState({notePreview:localloginComponent})
+}
+handleNoteEditData(event){
+  console.log("lala");
+}
 handleNoteCreateClick(event){
    var self = this;
     var localloginComponent = [];
@@ -280,18 +335,53 @@ handleNoteCreateClick(event){
              <br/>
                <TextField
                  type="text"
-                 hintText="Enter your Password"
-                 floatingLabelText="Password"
+                 hintText="Enter Note Content!"
+                 floatingLabelText="Content"
                  onChange = {(event,newValue) => this.setState({newcontent:newValue})}
                  />
                <br/>
-               <RaisedButton label="Create" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
+               <RaisedButton label="Create" primary={true} style={style} onClick={(event) => this.handleNoteUploadData(event)}/>
            </div>
            </MuiThemeProvider>
         )
   }
      this.setState({notePreview:localloginComponent})
 }
+ handleNoteUploadData(event){
+    var self = this;
+    this.setState({newcreatemsg:""})
+		if(this.state.newtitle.length>0 && this.state.newcontent.length>0) {
+      var payload={
+        "title":this.state.newtitle,
+        "content":this.state.newcontent,
+      }
+      console.log(payload);
+      axios.post('api/notes/'+this.state.userid, payload)
+       .then(function (response) {
+       console.log(response);
+       if(response.data.code == 200){
+         console.log("note create successfull");
+         //console.log(response.data.user);
+         //var uploadScreen=[];
+         //uploadScreen.push(<UserPage appContext={self.props.appContext} role={self.state.loginRole} user={response.data.user} />)
+         self.setState({newcreatemsg:"Note create successfully"});
+       }
+       else if(response.data.code == 404){
+         console.log("Note create fail");
+         alert(response.data.success)
+       }
+       else{
+         console.log("Note create fail");
+         alert("Note create fail");
+       }
+       })
+       .catch(function (error) {
+       console.log(error);
+       });
+	   } else{
+		   alert("title or content is null");
+	   } 
+  }
 /*
   Function:toggleDrawer
   Parameters: event
@@ -342,7 +432,7 @@ handleLogout(event){
           <div className="container">
                
               {this.state.notePreview}
-                
+              <div>{this.state.newcreatemsg}</div>
           </div>
           <div onClick={(event) => this.handleDivClick(event)}>
           <center>

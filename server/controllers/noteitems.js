@@ -10,8 +10,24 @@ module.exports = {
 		    builddate:currdatetime,
 		    noteId: req.params.userid,
       })
-      .then(noteItem => res.status(201).send(noteItem))
-      .catch(error => res.status(400).send(error));
+      .then((noteItem) => {
+        if (!noteItem) {
+          return res.send({
+            "code":404,
+            "success":"Note build fail!"
+          });
+        }
+        return res.send({
+            "code":200,
+            "success":"Note build success"
+          });
+      })
+      .catch(error => {
+		return res.send({
+			"code":404,
+			"success":"Note build fail!"
+		  });
+	});
   },
 
   update(req, res) {
