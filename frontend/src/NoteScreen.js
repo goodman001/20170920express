@@ -44,7 +44,6 @@ class NoteScreen extends Component {
     
     var notePreview=[];
     var newnotePreview=[];
-        
         for(var i in noteItems){
           newnotePreview.push(<MuiThemeProvider><tr>
             <td>
@@ -59,7 +58,7 @@ class NoteScreen extends Component {
             </td>
             <td>
           
-            <RaisedButton label="Edit" primary={true} style={style} onClick={(event) => this.handleNoteClick(i+1)}/>
+            <RaisedButton label="Edit" primary={true} style={style} onClick={(event) => this.handleNoteEditClick(i+1)}/>
             
             </td>
             </tr>
@@ -67,19 +66,30 @@ class NoteScreen extends Component {
           )
         }
     notePreview.push(
+      
       <MuiThemeProvider>
-               <table className="notetable">
-                <tbody>
-                <tr>
-                  <th>ID</th>
-                  <th>TITLE</th>
-                  <th>CONTENT</th>
-                  <th></th>
-                </tr>
-      {newnotePreview} 
-                 </tbody>
-              </table>
+      <div>
+        <div className="noteheader">
+         <center><h3>Note list</h3></center>
+        <RaisedButton  label="NewNote" primary={true} style={style1} onClick={(event) => this.handleNoteCreateClick(event)}/>
+        </div>
+        <div className="notecontainer">
+                 <table className="notetable">
+
+                  <tbody>
+                  <tr>
+                    <th>ID</th>
+                    <th>TITLE</th>
+                    <th>CONTENT</th>
+                    <th></th>
+                  </tr>
+        {newnotePreview} 
+                   </tbody>
+                </table>
+         </div>
+       </div>
       </MuiThemeProvider>
+                
                       )
     this.state={
       role:'student',
@@ -89,7 +99,9 @@ class NoteScreen extends Component {
       printcount:10,
       printingmessage:'',
       printButtonDisabled:false,
-      notePreview:notePreview
+      notePreview:notePreview,
+      newtitle:'',
+      newcontent:'',
     }
   }
   componentWillMount(){
@@ -222,36 +234,64 @@ handleClick(event){
   }
 }
 
-handleNoteClick(i){
+handleNoteEditClick(i){
     var self = this;
     console.log(i);
     var localloginComponent = [];
     if(1){
-   localloginComponent.push(
-        <MuiThemeProvider>
-          <div>
-           <TextField
-             hintText="Enter your College Rollno"
-             floatingLabelText="Student Id"
-             onChange = {(event,newValue) => this.setState({username:newValue})}
-             />
-           <br/>
+     localloginComponent.push(
+          <MuiThemeProvider>
+            <div>
              <TextField
-               type="password"
-               hintText="Enter your Password"
-               floatingLabelText="Password"
-               onChange = {(event,newValue) => this.setState({password:newValue})}
+               hintText="Enter your College Rollno"
+               floatingLabelText="Student Id"
+               onChange = {(event,newValue) => this.setState({username:newValue})}
                />
              <br/>
-             <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
-         </div>
-         </MuiThemeProvider>
-      )
-}
+               <TextField
+                 type="password"
+                 hintText="Enter your Password"
+                 floatingLabelText="Password"
+                 onChange = {(event,newValue) => this.setState({password:newValue})}
+                 />
+               <br/>
+               <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
+           </div>
+           </MuiThemeProvider>
+        )
+  }
      this.setState({notePreview:localloginComponent})
     //this.props.appContext.setState({userPage:userPage,uploadScreen:[]})
     
   }
+handleNoteCreateClick(event){
+   var self = this;
+    var localloginComponent = [];
+    if(1){
+     localloginComponent.push(
+          <MuiThemeProvider>
+            <div>
+             <TextField
+               type="text"
+               hintText="Enter Note title"
+               floatingLabelText="Title"
+               onChange = {(event,newValue) => this.setState({newtitle:newValue})}
+               />
+             <br/>
+               <TextField
+                 type="text"
+                 hintText="Enter your Password"
+                 floatingLabelText="Password"
+                 onChange = {(event,newValue) => this.setState({newcontent:newValue})}
+                 />
+               <br/>
+               <RaisedButton label="Create" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
+           </div>
+           </MuiThemeProvider>
+        )
+  }
+     this.setState({notePreview:localloginComponent})
+}
 /*
   Function:toggleDrawer
   Parameters: event
@@ -298,6 +338,7 @@ handleLogout(event){
     }*/
     return (
       <div className="App">
+         
           <div className="container">
                
               {this.state.notePreview}
@@ -333,5 +374,7 @@ handleLogout(event){
 const style = {
   margin: 15,
 };
-
+const style1 = {
+  margin: 0,
+};
 export default NoteScreen;

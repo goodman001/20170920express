@@ -4,6 +4,12 @@
 .container{
 	width:100%;
 }
+.noteheader{
+	width:100%;
+	text-align: left;
+}
+
+
 .notetable{
     font-size: 16px;
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -24,7 +30,7 @@
     color: white;
 	border: 1px solid #ddd;
     text-align: left;
-    padding: 8px;
+    //padding: 8px;
 }
 .notetable td{
 	    border: 1px solid #ddd;
